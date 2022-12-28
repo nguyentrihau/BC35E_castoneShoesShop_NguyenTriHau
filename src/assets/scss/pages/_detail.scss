@@ -1,0 +1,100 @@
+.carousel_detail {
+    margin-top: 58px;
+
+    .title {
+        h2 {
+            text-align: center;
+            margin-top: 55px;
+            font-weight: 400;
+            font-size: 40px;
+            color: #000000;
+        }
+    }
+
+    .product_name {
+        .detail_img {
+
+            min-width: 330px;
+            height: 380px;
+            background: $color11;
+            justify-content: center;
+
+            // position: relative;
+            img {
+                position: absolute;
+                display: block;
+                max-width: 100%;
+                height: auto;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .detail_content {
+            padding: 2px 140px 0;
+
+            h3 {
+                @include text($fs4, $fw3, $color12, $lh3);
+                text-align: left;
+            }
+
+            p {
+                @include text($fs1, $fw4, $color1, $lh2);
+            }
+
+            h4 {
+                @include text($fs3, $fw5, $color13, $lh5);
+            }
+
+            .size {
+                padding-top: $pd5;
+
+                button {
+                    margin-right: 21px;
+                    @include wh($w5, $h5);
+                    border: none;
+                    background-color: $color15 ;
+
+                    span {
+                        @include text($fs3, $fw6, $color14, $lh5);
+                    }
+                }
+            }
+
+            .gia {
+                @include text($fs4, $fw6, $color16, $lh3);
+                padding-top: $pd5;
+            }
+
+            .add {
+                button {
+                    display: inline-block;
+                    @include wh($w5, $h5);
+                    background: $bg-liner1;
+                    border: none;
+
+                    span {
+                        @include text($fs4, $fw4, $color1, $lh3);
+                    }
+                }
+
+                p {
+                    display: inline-block;
+                    padding: 0 25px;
+                    @include text($fs4, $fw4, $color1, $lh3);
+                }
+            }
+
+            .btnAdd {
+                @include wh($w1, $h1);
+                background: $bg-liner2;
+                border: none;
+            }
+        }
+
+        .row {
+            margin-left: -50px;
+        }
+    }
+}

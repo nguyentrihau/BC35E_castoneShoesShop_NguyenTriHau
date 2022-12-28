@@ -1,0 +1,304 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  font-family: "Inter", sans-serif;
+  font-weight: 100;
+}
+
+header .sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+  height: 50px;
+  opacity: 0.8;
+}
+header .header__top {
+  background-color: #000000;
+}
+header .header__top li {
+  list-style: none;
+  padding-left: 20px;
+}
+header .header__top li img {
+  vertical-align: text-bottom;
+}
+header .header__top li img:hover {
+  width: 35px;
+  height: 35px;
+}
+header .header__top li span {
+  font-size: 30px;
+  font-weight: 300;
+  color: #FFFFFF !important;
+  line-height: 36px;
+}
+header .header__top li a {
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 300;
+  color: #FFFFFF !important;
+  line-height: 19px;
+  transition: all 0.6s;
+}
+header .header__top li:hover a {
+  color: yellow !important;
+}
+header .nav-link {
+  font-size: 16px;
+  font-weight: 300;
+  color: rgba(0, 0, 0, 0.7) !important;
+  line-height: 24.2px;
+}
+header .nav-link.active {
+  font-size: 20px;
+  font-weight: 300;
+  color: #000000 !important;
+  line-height: 24.2px;
+}
+header .nav-link.active::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 60px;
+  height: 1px;
+  left: 22px;
+  top: 50px;
+  background: #030303;
+  border: 1px solid #000000;
+}
+header .nav-link.disabled {
+  font-size: 16px;
+  font-weight: 300;
+  color: #000000 !important;
+  line-height: 24.2px;
+}
+
+@media only screen and (max-width: 480px) {
+  header .header__top {
+    width: fit-content;
+  }
+}
+.carousel .carousel-control-prev,
+.carousel .carousel-control-next {
+  background: transparent;
+  border: none;
+}
+.carousel .carousel-control-prev .polygon-1,
+.carousel .carousel-control-next .polygon-1 {
+  position: absolute;
+  left: 40px;
+  top: 165px;
+}
+.carousel .carousel-control-prev .polygon-2,
+.carousel .carousel-control-next .polygon-2 {
+  position: absolute;
+  right: 40px;
+  top: 165px;
+}
+.carousel .carousel-indicators li {
+  width: 15px;
+  height: 15px;
+  margin-right: 23px;
+  margin-bottom: 72px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.13);
+}
+.carousel .carousel-item.active {
+  height: 530px;
+  background-image: url("../../images/image 6.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  transition: all 0.1s;
+}
+.carousel .carousel-item.active .carousel__left {
+  width: 70%;
+}
+.carousel .carousel-item.active .carousel__left img {
+  position: absolute;
+  top: 0;
+  left: 7%;
+  transform: translate(-50%, -50%);
+  transform: rotateY(180deg);
+}
+.carousel .carousel-item.active .carousel__right {
+  width: 30%;
+  padding-bottom: 120px;
+  padding-right: 10px;
+}
+.carousel .carousel-item.active .carousel__right h2 {
+  font-size: 40px;
+  font-weight: 300;
+  color: #000000 !important;
+  line-height: 48.41px;
+}
+.carousel .carousel-item.active .carousel__right p {
+  font-size: 20px;
+  font-weight: 300;
+  color: #000000 !important;
+  line-height: 24.2px;
+  margin-bottom: 35px;
+}
+.carousel .carousel-item.active .carousel__right a {
+  font-size: 20px;
+  font-weight: 300;
+  color: #FFFFFF !important;
+  line-height: 24.2px;
+  text-decoration: none;
+  padding: 13px 35px 13px 35px;
+  background-color: #F8B653;
+  transition: all 1s;
+}
+.carousel .carousel-item.active .carousel__right a:hover {
+  font-size: 24px;
+  font-weight: 300;
+  color: #FFFFFF !important;
+  line-height: 24.2px;
+}
+.carousel .carousel-item {
+  transition: transform 0.8s ease;
+}
+
+@media only screen and (max-width: 768px) {
+  .carousel .carousel-inner {
+    height: 560px;
+  }
+  .carousel .carousel-item.active {
+    display: grid;
+  }
+  .carousel .carousel-item.active .carousel__left {
+    width: 100%;
+    height: 300px;
+  }
+  .carousel .carousel-item.active .carousel__left img {
+    width: 50%;
+  }
+  .carousel .carousel-item.active .carousel__right {
+    width: 100%;
+  }
+}
+.product {
+  padding-top: 46px;
+}
+.product .container_pr {
+  padding: 0px 46px 0px 99px;
+}
+.product .title {
+  text-align: center;
+  padding-bottom: 81px;
+}
+.product .title p {
+  font-size: 16px;
+  font-weight: 200;
+  color: #000000 !important;
+  line-height: 48.41px;
+}
+.product .card {
+  background-color: #F8F8F8;
+  border: none;
+}
+.product .card img {
+  width: 100%;
+  padding: 45px 57px 10px 57px;
+}
+.product .card .card-body {
+  padding-bottom: 13px;
+}
+.product .card .card-body h5 {
+  font-size: 24px;
+  font-weight: 300;
+  color: #000000 !important;
+  line-height: 29px;
+  margin-bottom: 8px;
+}
+.product .card .card-body p {
+  font-size: 20px;
+  font-weight: 300;
+  color: #CBC9C9 !important;
+  line-height: 24.2px;
+}
+.product .card .card-footer {
+  border: none;
+}
+.product .card .card-footer .left {
+  width: 53%;
+  text-align: center;
+  height: 64px;
+  background-color: #E1B067;
+}
+.product .card .card-footer .left a {
+  font-size: 16px;
+  font-weight: 200;
+  color: #000000 !important;
+  line-height: 64px;
+  text-decoration: none;
+  transition: all 1s;
+}
+.product .card .card-footer .left:hover a {
+  font-size: 20px;
+  font-weight: 200;
+  color: #000000 !important;
+  line-height: 64px;
+}
+.product .card .card-footer .right {
+  width: 47%;
+  text-align: center;
+  height: 64px;
+  background-color: #DEDDDC;
+}
+.product .card .card-footer .right p {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000000 !important;
+  line-height: 64px;
+  margin-bottom: 0;
+}
+
+footer {
+  padding-top: 5rem;
+}
+footer .footer_top {
+  background: #F7F7F7;
+  padding-top: 5px;
+}
+footer .footer_bot {
+  background: #DEDDDC;
+  padding: 20px 0;
+}
+footer .container h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000000 !important;
+  line-height: 19px;
+}
+footer .container ul {
+  list-style: none;
+}
+footer .container a {
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 400;
+  color: #000000 !important;
+  line-height: 10px;
+  transition: all 0.5s;
+}
+footer .container a:hover {
+  color: #1ED90E !important;
+}
+footer .container .footer_learn, footer .container .footer_search, footer .container .footer_view, footer .container .footer_sign {
+  color: red !important;
+  transition: all 1s;
+}
+footer .container .footer_learn:hover, footer .container .footer_search:hover, footer .container .footer_view:hover, footer .container .footer_sign:hover {
+  font-size: 17px;
+}/*# sourceMappingURL=index.css.map */

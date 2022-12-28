@@ -1,0 +1,116 @@
+.carousel {
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        background: transparent;
+        border: none;
+
+        .polygon-1 {
+            position: absolute;
+            left: 40px;
+            top: 165px;
+        }
+
+        .polygon-2 {
+            position: absolute;
+            right: 40px;
+            top: 165px;
+        }
+    }
+
+    .carousel-indicators {
+        li {
+            width: 15px;
+            height: 15px;
+            margin-right: 23px;
+            margin-bottom: 72px;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 0, 0, 0.13);
+        }
+    }
+
+
+
+
+    .carousel-item.active {
+        height: 530px;
+        background-image: url("../../img/image\ 6.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: bottom;
+        overflow: hidden;
+
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+        transition: all .1s;
+
+        .carousel__left {
+            width: 70%;
+
+            img {
+                position: absolute;
+                top: 0;
+                right: 50%;
+                transform: translate(-50%, -50%);
+                transform: rotateY(180deg);
+            }
+        }
+
+        .carousel__right {
+            width: 30%;
+            padding-bottom: 120px;
+            padding-right: 10px;
+
+            h2 {
+                @include text ($fs5, $fw3, $color1, $lh4);
+            }
+
+            p {
+                @include text ($fs2, $fw3, $color1, $lh1);
+                margin-bottom: 35px
+            }
+
+            a {
+                @include text ($fs2, $fw3, $color3, $lh1);
+                text-decoration: none;
+                padding: 13px 35px 13px 35px;
+                background-color: $color8;
+                transition: all 1s;
+
+                &:hover {
+                    @include text ($fs3, $fw3, $color3, $lh1);
+                }
+
+            }
+
+        }
+
+    }
+
+    .carousel-item {
+        transition: transform 0.8s ease;
+    }
+}
+@include Responsive(SM){
+    .carousel{
+        .carousel-inner{
+            height: 560px;
+        }
+        .carousel-item.active{
+            display: grid;
+            
+            .carousel__left{
+                width: 100%;
+                height: 300px;  
+                img{
+                    width: 50%;
+                }
+            }
+            .carousel__right{
+                width: 100%;
+            }
+        }
+    }
+}

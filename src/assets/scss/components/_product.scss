@@ -1,0 +1,99 @@
+.product {
+    background: #FFFCFC;
+    padding-bottom: 104px;
+    .container_pr{
+        padding: 0px 46px 0px 99px;
+    }
+    padding-top: 44px;
+    .row{
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .title {
+        h2{
+            background:linear-gradient(180deg, #F21299 0%, #1B02B5 100%);
+            color:white;
+            width: 50%;
+            height: auto;
+            padding: 15px;
+
+        }
+        p {
+            @include text ($fs1, $fw2, $color1, $lh4);
+        }
+    }
+
+
+
+    .card {
+        position: relative;
+        .product_heart{
+            position: absolute;
+            top: 30px;
+            right: 26px;
+            i{
+                color: #FB0B0B;
+                // font-weight: 400;
+                font-size: 40px;
+                line-height: 48.41px;
+                width: 41px;
+                height: 48px;
+            }
+        }
+        background-color: $color11;
+        border: none;
+        img {
+            width: 100%;
+            padding: 45px 57px 10px 57px;
+        }
+
+        .card-body {
+            h5 {
+                @include text ($fs3, $fw3, $color1, $lh5);
+                margin-bottom: 8px;
+            }
+
+            p {
+                @include text ($fs2, $fw3, $color6, $lh1);
+            }
+
+            padding-bottom: 13px;
+        }
+
+        .card-footer {
+            border: none;
+
+            .left {
+                
+                a {
+                    @include text ($fs1, $fw5, $color1, $lh6);
+                    text-decoration: none;
+                    transition: all 1s;
+                    
+                }
+                &:hover{
+                    a{@include text ($fs2, $fw6, $color1, $lh6);}
+                }
+                border: none;
+                outline: none;
+                width: 53%;
+                text-align: center;
+                height: 64px;
+                background-color: $color10;
+            }
+
+            .right {
+                p {
+                    @include text ($fs1, $fw6, $color1, $lh6);
+                    margin-bottom: 0;
+                }
+
+                width: 47%;
+                text-align: center;
+                height: 64px;
+                background-color: $color9;
+            }
+
+        }
+    }
+}
