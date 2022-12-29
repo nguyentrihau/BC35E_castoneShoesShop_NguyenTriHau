@@ -2,6 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import axios from 'axios';
 import { http } from '../../util/config';
+import _ from 'lodash'
 
 const initialState = {
     arrProduct: [
@@ -11,6 +12,8 @@ const initialState = {
     ],
     productDetail: null,
     productSearch:[],
+  
+
 }
 
 const ProductReducer = createSlice({
@@ -25,16 +28,26 @@ const ProductReducer = createSlice({
         },
         getListResultAction:(state,action) =>{
             state.productSearch = action.payload;
+        },
+        sortListResultAction:(state,action)=>{
+            let sortedListResult = [...state.productSearch];
+            sortedListResult = _.orderBy(
+                sortedListResult,["price"],[action.payload]
+            );
+            state.productSearch = sortedListResult;
         }
     }
 });
 
-export const { getProductAction,getProductDetailAction,getListResultAction } = ProductReducer.actions
+export const { getProductAction,getProductDetailAction,getListResultAction,sortListResultAction,
+} = ProductReducer.actions
 
 export default ProductReducer.reducer
 
 
 /**----------async action------------------ */
+
+//lay danh sach san pham trang home
 export const getAllProductApi = async (dispatch) => {
     console.log("dispatch", dispatch);
     const result = await http.get(`/api/Product`);
@@ -45,6 +58,7 @@ export const getAllProductApi = async (dispatch) => {
     dispatch(action);
     console.log(action);
 };
+//lay chi tiet san pham trang detail
 export const getProductByIdApi = (id) => {
     return async (dispatch) => {
         const result = await http.get(`/api/Product/getbyid?id=${id}`);
@@ -54,6 +68,7 @@ export const getProductByIdApi = (id) => {
         console.log(action);
     }
 };
+//lay san pham trang search theo keyword
 export const getProductApi = (keyword) => {
     return async (dispatch) => {     
             const result = await http.get(`/api/Product?keyword=${keyword}`);

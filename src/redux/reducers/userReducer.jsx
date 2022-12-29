@@ -1,8 +1,7 @@
 // rxslice
 import { createSlice } from '@reduxjs/toolkit'
-import axios from 'axios';
 import { history } from '../..';
-import { getCookie, http, layStoreJson, luuStoreJson, setCookie, TOKEN, TOKEN_CYBER, USER_LOGIN } from '../../util/config';
+import {  http, layStoreJson, luuStoreJson, TOKEN, USER_LOGIN } from '../../util/config';
 
 const initialState = {
     userLogin: layStoreJson(USER_LOGIN,TOKEN) ? layStoreJson(USER_LOGIN,TOKEN) : null,
@@ -25,16 +24,20 @@ const userReducer = createSlice({
         },
         postUpdateProfileApi:(state,action)=>{
           state.profile =action.payload;  
+        },
+        postApiFacebookToken:(state,action)=>{
+            state.userLogin = action.payload;
         }
+
     }
 });
 
-export const { setUserLoginAction, setNewUser,getProfileAction,postUpdateProfileApi } = userReducer.actions
+export const { setUserLoginAction, setNewUser,getProfileAction,postUpdateProfileApi,postApiFacebookToken } = userReducer.actions
 
 export default userReducer.reducer
 
 /**=========== async action ================= */
-
+//lay thong tin nguoi dang ky
 export const registerApi = (infoUse) => {  // { "email": "", "password": "",  "name": "",  "gender": true, "phone": "" }
     return async dispatch => {
         let result = await http.post('/api/Users/signup', infoUse);
@@ -45,7 +48,7 @@ export const registerApi = (infoUse) => {  // { "email": "", "password": "",  "n
         history.push('/login')
     }
 }
-
+//gui thong tin len api de dang nhap
 export const loginApi = (userLogin) => {
     return async (dispatch)=>{
         let result = await http.post(`/api/Users/signin`,userLogin);
@@ -64,6 +67,7 @@ export const loginApi = (userLogin) => {
     }
 }
 
+//lay thong tin user ve profile
 export const getProfileApi =()=>{
     return async (dispatch)=>{
         let result = await http.post('/api/Users/getProfile');
@@ -74,11 +78,25 @@ export const getProfileApi =()=>{
     } 
 }
 
+//cap nhat thong tin user
 export const updateProfileApi = (profileUpdate)=>{
     return async (dispatch)=>{
         let result = await http.post('/api/Users/updateProfile',profileUpdate);
         const action = postUpdateProfileApi(result.data.content);
         console.log(result);
         dispatch(action);
+    }
+}
+
+//dang nhap bang facebook
+export const loginFacebookApi = (fbToken)=>{
+    return async (dispatch)=>{
+        const result = await http.post("/api/Users/facebooklogin",fbToken)
+        const action = postApiFacebookToken(result.data.content);
+        console.log(result.data);
+        dispatch(action);
+        // alert('đăng nhập thành công')
+        // history.push('/profile');
+        luuStoreJson(USER_LOGIN,result.data.content);
     }
 }

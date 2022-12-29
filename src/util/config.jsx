@@ -93,6 +93,7 @@ http.interceptors.request.use((config)=>{
 http.interceptors.response.use((res)=>{
     return res;
 },(err)=>{
+    if(err.response?.status === 415){alert('dang nhap that bai')}
     //Bat loi 400 hoac 404
     if(err.response?.status === 400 || err.response?.status === 404){
         //Loi do tham so => backend tra ve 400 hoac 404 minh se xu ly

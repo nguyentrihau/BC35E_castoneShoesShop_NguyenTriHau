@@ -90,7 +90,7 @@ const Home = () => {
         <div className="container_pr">
           <div className="row">
             {arrProduct.map((prod, index) => {
-              console.log(prod);
+              // console.log(prod);
               return <div className="col-lg-4 col-md-6 px-4 pt-5" key={index}>
                 <Products prod={prod} />
               </div>

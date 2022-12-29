@@ -9,9 +9,9 @@ const Products = (props) => {
             <img src={prod?.image} className="card-img-top" alt="..." />
             <div className='product_heart'><i className="fa fa-heart" aria-hidden="true"></i></div>
             <div className="card-body">
-                <h5 className="card-title">{prod?.name}</h5>
-                <p className="card-text">{prod?.shortDescription}</p>
-                {/* <p className="card-text">{prod.shortDescription.length > 45 ? prod.shortDescription.substr(0,45)+'...':prod.shortDescription}</p> */}
+                <h5 className="card-title">{prod?.name?.length > 20 ? prod?.name?.substr(0,20)+'...':prod?.name}</h5>
+                {/* <p className="card-text">{prod?.shortDescription}</p> */}
+                <p className="card-text">{prod?.shortDescription?.length > 55 ? prod?.shortDescription?.substr(0,55)+'...':prod?.shortDescription}</p>
             </div>
             <div className="card-footer py-0 px-0 d-flex ">
                 <button className="left" onClick={() => {

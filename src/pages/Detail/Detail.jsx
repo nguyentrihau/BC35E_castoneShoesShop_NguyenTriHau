@@ -28,16 +28,12 @@ const Detail = () => {
             </div>
             <div className="detail_content col-lg-8 col-md-6 col-sm-12">
               <h3>{productDetail?.name}</h3>
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores pariatur sequi esse ducimus veritatis
-                aspernatur totam inventore, tempore rem impedit illum qui a quae aperiam officiis, error repellat sunt
-                nulla! ( Thuộc tính Description)</p>
+              <p>{productDetail?.description}</p>
               <h4>Available size</h4>
               <div className="size">
-                <button><span>38</span></button>
-                <button><span>39</span></button>
-                <button><span>40</span></button>
-                <button><span>41</span></button>
-                <button><span>42</span></button>
+                {productDetail?.size?.map((size,idx)=>{
+                  return <button key={idx}><span>{size}</span></button>
+                })}
               </div>
               <p className="gia">{productDetail?.price}$</p>
               <div className="add">

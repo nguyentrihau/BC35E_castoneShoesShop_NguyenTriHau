@@ -6,12 +6,12 @@ import { huyStore, TOKEN, USER_LOGIN } from '../../util/config';
 
 const Header = () => {
     const { userLogin } = useSelector(state => state.userReducer);
-    console.log(userLogin);
+    console.log(userLogin?.email);
     const renderLogin = () => {
         if (userLogin) {
             return <>
             <NavLink className={'nav-link'} to='/profile'>
-                <span style={{ color: 'white', fontSize: '20px' }}>Hello ! {userLogin.email}</span>
+                <span style={{ color: 'white', fontSize: '20px' }}>Hello ! {userLogin?.email}</span>
             </NavLink>
             <span style={{cursor:'pointer',color:'white',fontWeight:'500'}} onClick={()=>{
                             huyStore(TOKEN);
@@ -37,7 +37,7 @@ const Header = () => {
     return (
         <div>
             <div className="header__top d-flex justify-content-between align-items-center">
-                <NavLink to="/"><img className="mx-5" src="./img/image 3.png" alt="logo" /></NavLink>
+                <NavLink to="home"><img className="mx-5" src="./img/cyber.png" alt="logo" /></NavLink>
                 <ul className="d-flex align-items-center my-0 mx-5 py-2 ">
                     <li>
                         <NavLink to="/search" className="header_search">
