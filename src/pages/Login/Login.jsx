@@ -26,7 +26,8 @@ const Login = () => {
     }
   });
   const responseFacebook = (res) => {
-    console.log(res?.accessToken);
+    console.log("res",res?.accessToken);
+    console.log("res?.accessToken",res?.accessToken);
     if(res?.accessToken){
       const action = loginFacebookApi(res.accessToken);
       dispatch(action);
