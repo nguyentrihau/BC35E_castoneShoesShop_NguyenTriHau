@@ -1,11 +1,15 @@
 import axios from 'axios';
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router';
 import Products from '../../Component/Product/Products';
-import { getProductByIdApi, getProductDetailAction } from '../../redux/reducers/ProductReducer';
+import { addToCartAction, getProductByIdApi, getProductDetailAction } from '../../redux/reducers/ProductReducer';
+import { getProfileApi } from '../../redux/reducers/userReducer';
+import { layStore, USER_LOGIN } from '../../util/config';
 
 const Detail = () => {
+  const [sizeState, setSizeState] = useState("36");
+  const [quantityState, setQuantityState] = useState(1);
   const { productDetail } = useSelector(state => state.ProductReducer);
   const dispatch = useDispatch();
   const param = useParams();
@@ -13,11 +17,25 @@ const Detail = () => {
     const action = getProductByIdApi(param.id);
     dispatch(action);
   }
-
   useEffect(() => {
     getProductByID();
   }, [param.id])
   console.log(productDetail);
+
+  const handleChangeQuantity = (number) => {
+    if (quantityState < 2 && number === -1) {
+      return alert("Không thể chỉnh số lượng dưới 1");
+    }
+    setQuantityState(quantityState + number);
+  };
+
+  const handleAddToCart = () =>{
+    if (!layStore(USER_LOGIN)) {
+      dispatch(getProfileApi());
+    }
+    dispatch(addToCartAction({ ...productDetail, sizeState, quantityState }));
+  }
+
   return (
     <section className="carousel_detail">
       <div className="container">
@@ -32,16 +50,22 @@ const Detail = () => {
               <h4>Available size</h4>
               <div className="size">
                 {productDetail?.size?.map((size,idx)=>{
-                  return <button key={idx}><span>{size}</span></button>
+                  return <button className={(sizeState === size ? "active-size" : "")}  key={idx} onClick={()=>{
+                    setSizeState(size); console.log(size);
+                  }}><span>{size}</span></button>
                 })}
               </div>
               <p className="gia">{productDetail?.price}$</p>
               <div className="add">
-                <button><span>+</span></button>
-                <p>1</p>
-                <button><span>-</span></button>
+                <button onClick={() => {
+                  handleChangeQuantity(1);
+                }}><span>+</span></button>
+                <p>{quantityState}</p>
+                <button onClick={() => {
+                  handleChangeQuantity(-1);
+                }}><span>-</span></button>
               </div>
-              <button className="btnAdd">Add to cart</button>
+              <button className="btnAdd" onClick={handleAddToCart}>Add to cart</button>
             </div>
           </div>
         </div>

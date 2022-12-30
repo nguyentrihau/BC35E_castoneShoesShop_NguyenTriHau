@@ -80,11 +80,15 @@ const Profile = () => {
                 <div className="form-group d-xl-flex reCheck">
                   <div className="gender mr-3">Gender:</div>
                   <div className="radio mr-3">
-                    <input id="radio-1" name="radio" type="radio" defaultValue="true" defaultChecked="checked" style={{ cursor: 'pointer' }} />
+                    <input id="radio-1" name="radio" type="radio" defaultChecked={profile?.gender} style={{ cursor: 'pointer' }} onChange={() =>
+                                formik.setFieldValue("gender", true)
+                              } />
                     <label htmlFor="radio-1" className="radio-label" style={{ cursor: 'pointer' }}>Male</label>
                   </div>
                   <div className="radio ml-3">
-                    <input id="radio-2" name="radio" type="radio" defaultValue="false" style={{ cursor: 'pointer' }} />
+                    <input id="radio-2" name="radio" type="radio" defaultChecked={!profile?.gender} style={{ cursor: 'pointer' }} onChange={() =>
+                                formik.setFieldValue("gender", false)
+                              }/>
                     <label htmlFor="radio-2" className="radio-label" style={{ cursor: 'pointer' }}>Female</label>
                   </div>
                   <div>

@@ -1,4 +1,12 @@
 .carousel_detail {
+    .active-size {
+        background: linear-gradient(
+          270deg,
+          rgba(62, 32, 248, 0.9) 5.14%,
+          #d017ee 89.71%
+        ) !important;
+        color: white !important;
+      }
     margin-top: 58px;
 
     .title {

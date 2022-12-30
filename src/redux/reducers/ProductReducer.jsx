@@ -12,6 +12,7 @@ const initialState = {
     ],
     productDetail: null,
     productSearch:[],
+    listCartTemp:[],
   
 
 }
@@ -35,12 +36,23 @@ const ProductReducer = createSlice({
                 sortedListResult,["price"],[action.payload]
             );
             state.productSearch = sortedListResult;
+        },
+        addToCartAction:(state,action)=>{
+            let index = state.listCartTemp.findIndex(
+                (i) => i.id === action.payload.id
+                );
+                if (index === -1) {
+                    state.listCartTemp.push(action.payload);
+                } else {
+                    state.listCartTemp[index].quantityState += action.payload.quantityState;
+                };
+                console.log(state.listCartTemp);
         }
     }
 });
 
 export const { getProductAction,getProductDetailAction,getListResultAction,sortListResultAction,
-} = ProductReducer.actions
+addToCartAction} = ProductReducer.actions
 
 export default ProductReducer.reducer
 
