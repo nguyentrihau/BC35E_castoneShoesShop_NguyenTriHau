@@ -1,12 +1,19 @@
 import axios from "axios";
-import {history} from '../index'
 import {isExpired, decodeToken} from 'react-jwt'
+import { history } from "../App";
 
 export const USER_LOGIN = 'userLogin';
 export const TOKEN = 'accessToken';
 export const TOKEN_CYBER = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAzNUUiLCJIZXRIYW5TdHJpbmciOiIzMS8wNS8yMDIzIiwiSGV0SGFuVGltZSI6IjE2ODU0OTEyMDAwMDAiLCJuYmYiOjE2NTczODYwMDAsImV4cCI6MTY4NTYzODgwMH0.LWlPoCoXPHgp2U6FijTqXvKFt7ENvY9Tyn9ux-bVlXo';
 
-export const {luuStore,luuStoreJson,layStore,layStoreJson,huyStore,setCookie,getCookie,eraseCookie} = {
+export const {luuStore,luuStoreJson,layStore,layStoreJson,huyStore,setCookie,getCookie,eraseCookie, getToken,sl} = {
+    sl : (arr,select) => {
+        let total = 0;
+        for (const key in arr) {
+            total += arr[key][select];
+        }
+        return total;
+    },
     luuStore: (name,data) => {
         localStorage.setItem(name,data);
     },
@@ -64,8 +71,12 @@ export const {luuStore,luuStoreJson,layStore,layStoreJson,huyStore,setCookie,get
     },
     eraseCookie: (name) => {
         document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    },
+    getToken: () => {
+        const token = localStorage.getItem("userLogin");
+        if(token) return JSON.parse(token).accessToken;
+        return null;
     }
-
 }
 
 //cau hinh interceptor (cau hinh cho tat request(gui di),response(du lieu nhan ve))
@@ -77,7 +88,7 @@ export const http = axios.create({
 
 //cau hinh cho request deu co token
 http.interceptors.request.use((config)=>{
-    let token = layStoreJson(USER_LOGIN,TOKEN);
+    let token = getToken();
     // console.log("layStore(TOKEN)",token);
     config.headers = {
         ...config.headers,
@@ -105,13 +116,17 @@ http.interceptors.response.use((res)=>{
         const isMyTokenExpired = isExpired(layStore(TOKEN));
         //token het han
         if(isMyTokenExpired){
-            alert('Het phien dang nhap yeu cau dang nhap lai !');
-            huyStore(TOKEN);
-            huyStore(USER_LOGIN);
-            // chuyen huong dang trang f5
-            window.location.href = '/login';
+            // alert('Het phien dang nhap yeu cau dang nhap lai !');
+            // huyStore(TOKEN);
+            // huyStore(USER_LOGIN);
+            // // chuyen huong dang trang f5
+            // window.location.href = '/login';
         }
         // history.push('/login');
+    }
+    if(err.code === "ERR_NETWORK"){
+        localStorage.removeItem(USER_LOGIN);
+        window.location.reload();
     }
     return Promise.reject(err);
 })

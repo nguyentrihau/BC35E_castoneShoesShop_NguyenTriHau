@@ -1,10 +1,9 @@
 // rxslice
 import { createSlice } from '@reduxjs/toolkit'
-import { history } from '../..';
-import { http, layStoreJson, luuStoreJson, TOKEN, USER_LOGIN } from '../../util/config';
+import { history } from '../../App';
+import { getToken, http, luuStoreJson, TOKEN, USER_LOGIN } from '../../util/config';
 
 const initialState = {
-    userLogin: layStoreJson(USER_LOGIN, TOKEN) ? layStoreJson(USER_LOGIN, TOKEN) : null,
     profile: null,
     newUser: {},
 }
@@ -13,9 +12,6 @@ const userReducer = createSlice({
     name: "userReducer",
     initialState,
     reducers: {
-        setUserLoginAction: (state, action) => {
-            state.userLogin = action.payload;
-        },
         setNewUser: (state, action) => {
             state.newUser = action.payload;
         },
@@ -32,7 +28,7 @@ const userReducer = createSlice({
     }
 });
 
-export const { setUserLoginAction, setNewUser, getProfileAction, postUpdateProfileApi, postApiFacebookToken } = userReducer.actions
+export const { setNewUser, getProfileAction, postUpdateProfileApi, postApiFacebookToken } = userReducer.actions
 
 export default userReducer.reducer
 
@@ -52,39 +48,39 @@ export const registerApi = (infoUse) => {  // { "email": "", "password": "",  "n
 export const loginApi = (userLogin) => {
     return async (dispatch) => {
         let result = await http.post(`/api/Users/signin`, userLogin);
-
-        //sau khi dang nhap thanh cong dispatch len reducer
-        const action = setUserLoginAction(result.data.content);
-        dispatch(action);
+        luuStoreJson(USER_LOGIN, result.data.content);
         alert('đăng nhập thành công')
-        history.push('/profile');
+        window.location.reload();
+        // history.push('/profile');
         //Luu cookie hoac localstorage cho token
         //luu thong tin dang nhap thanh cong {email,accessToken} vao localstorage
-        luuStoreJson(USER_LOGIN, result.data.content);
-        console.log(result.data.content);
         //luu access token vao cookie
         // setCookie(TOKEN_CYBER,result.data.content.accessToken);
     }
 }
 
-//lay thong tin user ve profile
-export const getProfileApi = () => {
-    return async (dispatch) => {
-        let result = await http.post('/api/Users/getProfile');
-        //sau khi call api profile dua len reducer
-        const action = getProfileAction(result.data.content);
-        dispatch(action);
-        console.log(result.data.content);
-    }
+//lay thong tin user profile
+export const getProfileApi = async (dispatch) => {
+    if (!getToken()) return;
+    // console.log(getToken());
+    let result = await http.post('/api/Users/getProfile');
+    //sau khi call api profile dua len reducer
+    const action = getProfileAction(result.data.content);
+    dispatch(action);
+    // console.log(result.data.content);
 }
 
 //cap nhat thong tin user
 export const updateProfileApi = (profileUpdate) => {
     return async (dispatch) => {
-        let result = await http.post('/api/Users/updateProfile', profileUpdate);
-        const action = postUpdateProfileApi(result.data.content);
-        console.log(result);
-        dispatch(action);
+        try {
+            await http.post('/api/Users/updateProfile', profileUpdate);
+            alert("update thành công")
+        } catch (error) {
+            console.log(error);
+        } finally {
+            dispatch(getProfileApi);
+        }
     }
 }
 

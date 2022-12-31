@@ -2,23 +2,23 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-import { huyStore, TOKEN, USER_LOGIN } from '../../util/config';
+import { huyStore, sl, TOKEN, USER_LOGIN } from '../../util/config';
 
 const Header = () => {
-    const { userLogin } = useSelector(state => state.userReducer);
-    console.log(userLogin?.email);
+    const { profile } = useSelector(state => state.userReducer);
+    const { listCartTemp } = useSelector(state => state.CartReducer);
     const renderLogin = () => {
-        if (userLogin) {
+        if (profile) {
             return <>
-            <NavLink className={'nav-link'} to='/profile'>
-                <span style={{ color: 'white', fontSize: '20px' }}>Hello ! {userLogin?.email}</span>
-            </NavLink>
-            <span style={{cursor:'pointer',color:'white',fontWeight:'500'}} onClick={()=>{
-                            huyStore(TOKEN);
-                            huyStore(USER_LOGIN);
-                            // chuyen huong dang trang f5
-                            window.location.href = '/login';
-            }}>Đăng xuất</span>
+                <NavLink className={'nav-link'} to='/profile'>
+                    <span style={{ color: 'white', fontSize: '20px' }}>Hello ! {profile?.email}</span>
+                </NavLink>
+                <span style={{ cursor: 'pointer', color: 'white', fontWeight: '500' }} onClick={() => {
+                    huyStore(TOKEN);
+                    huyStore(USER_LOGIN);
+                    // chuyen huong dang trang f5
+                    window.location.href = '/login';
+                }}>Đăng xuất</span>
             </>
         }
         return <>
@@ -47,8 +47,8 @@ const Header = () => {
                     </li>
                     <li>
                         <NavLink to="/carts">
-                            <img src="./img/cart.png" style={{ cursor: 'pointer' }} alt="..." />
-                            <span>(1)</span>
+                            <img src="./img/cart.png" style={{ cursor: 'pointer' }} alt="cart" />
+                            <span>({sl(listCartTemp,"quantityState")})</span>
                         </NavLink>
                     </li>
                     {renderLogin()}

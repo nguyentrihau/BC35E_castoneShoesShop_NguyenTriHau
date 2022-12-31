@@ -6,8 +6,8 @@ import * as yup from 'yup';
 import { useFormik } from 'formik';
 const Profile = () => {
   const { profile } = useSelector(state => state.userReducer);
+  console.log(profile?.ordersHistory)
   // const profile = null;
-  console.log({ profile });
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
@@ -19,29 +19,27 @@ const Profile = () => {
     },
     validationSchema: yup.object().shape({
       phone: yup.string()
-        .required("Số điện thoại không được để trống !")
-        .matches(/^[0-9]+$/,'Chỉ được nhập số')
-        .min(10, "Số điện thoại phải đúng 10 số ")
-        .max(10,"Số điện thoại phải đúng 10 số "),
+        .required("Nhập số điện thoại để update !")
+        .matches(/^[0-9]+$/, 'Chỉ được nhập số')
+        .min(9, "Số điện thoại phải đúng 10 số ")
+        .max(10, "Số điện thoại phải đúng 10 số "),
+      name: yup.string().required("Nhập tên mới để update "),
     }),
     onSubmit: (values) => {
       let { email, password, gender, phone, name } = values;
       let userUpdate = {
         ...profile,
-        ...(email ? { email } : {}),
-        ...(password ? { password } : {}),
+        ...(email && { email }),
+        ...(password && { password }),
         ...(gender === null || gender === undefined ? {} : { gender }),
-        ...(phone ? { phone } : {}),
-        ...(name ? { name } : {}),
+        ...(phone && { phone }),
+        ...(name && { name }),
       };
-      console.log(userUpdate);
       dispatch(updateProfileApi(userUpdate));
+      console.log(userUpdate);
     }
   });
-  useEffect(() => {
-    const action = getProfileApi();
-    dispatch(action);
-  }, [])
+
   return (
     <section>
       <div className="profile">
@@ -57,12 +55,12 @@ const Profile = () => {
                   <div className="col-6">
                     <div className='form-group mt-3'>
                       <label htmlFor="email">Email</label>
-                      <input name='email' value={profile?.email} className='form-control' id="email" disabled />
+                      <input name='email' defaultValue={profile?.email} className='form-control' id="email" disabled onChange={formik.handleChange} />
                     </div>
                     <div className="form-group mt-3">
                       <label htmlFor="phone">Phone</label>
-                      <input name='phone' placeholder={profile?.phone} id="phone" className='form-control' onChange={formik.handleChange} onBlur={formik.handleBlur} />
-                      {formik.errors.phone && <div className="text-danger">{formik.errors.phone}</div>}
+                      <input name='phone' defaultValue={profile?.phone} id="phone" className='form-control' onChange={formik.handleChange} />
+                      {formik.errors.phone && formik.touched.phone && <div className="text-danger">{formik.errors.phone}</div>}
                     </div>
                   </div>
                 </div>
@@ -70,25 +68,26 @@ const Profile = () => {
               <div className="profile_content_right col-4">
                 <div className='form-group mt-3'>
                   <label htmlFor="name">Name</label>
-                  <input name='name' id="name" placeholder={profile?.name} className='form-control' onChange={formik.handleChange} />
-                  {formik.errors.name && <div className="text-danger">{formik.errors.name}</div>}
+                  <input name='name' id="name" defaultValue={profile?.name} className='form-control' onChange={formik.handleChange} />
+                  {formik.errors.name && formik.touched.name && <div className="text-danger">{formik.errors.name}</div>}
                 </div>
                 <div className="form-group mt-3">
                   <label htmlFor="password">Password</label>
-                  <input name='password' value="******" id="password" className='form-control' disabled />
+                  <input name='password' id="password" className='form-control' onChange={formik.handleChange} />
+                  {/* {formik.errors.password && formik.touched.password && <div className="text-danger">{formik.errors.password}</div>} */}
                 </div>
                 <div className="form-group d-xl-flex reCheck">
                   <div className="gender mr-3">Gender:</div>
                   <div className="radio mr-3">
-                    <input id="radio-1" name="radio" type="radio" defaultChecked={profile?.gender} style={{ cursor: 'pointer' }} onChange={() =>
-                                formik.setFieldValue("gender", true)
-                              } />
+                    <input id="radio-1" name="gender" type="radio" defaultChecked={profile?.gender} style={{ cursor: 'pointer' }} onChange={() =>
+                      formik.setFieldValue("gender", true)
+                    } />
                     <label htmlFor="radio-1" className="radio-label" style={{ cursor: 'pointer' }}>Male</label>
                   </div>
                   <div className="radio ml-3">
-                    <input id="radio-2" name="radio" type="radio" defaultChecked={!profile?.gender} style={{ cursor: 'pointer' }} onChange={() =>
-                                formik.setFieldValue("gender", false)
-                              }/>
+                    <input id="radio-2" name="gender" type="radio" defaultChecked={!profile?.gender} style={{ cursor: 'pointer' }} onChange={() =>
+                      formik.setFieldValue("gender", false)
+                    } />
                     <label htmlFor="radio-2" className="radio-label" style={{ cursor: 'pointer' }}>Female</label>
                   </div>
                   <div>
@@ -116,15 +115,20 @@ const Profile = () => {
                 </tr>
               </thead>
               {profile?.ordersHistory?.map((prod, index) => {
+                console.log({ prod });
+                const { orderDetail } = prod;
                 return <tbody key={index}>
-                  <tr>
-                    <td>{prod.id}</td>
-                    <td><img src="./img/image 5.png" width={85} height={56} alt="" /></td>
-                    <td>Product 1 </td>
-                    <td>1000</td>
-                    <td>1</td>
-                    <td>1000</td>
-                  </tr>
+                  {prod.orderDetail.map((item, id) => {
+                    console.log({item});
+                    return (<tr key={id}>
+                      <td>{id}</td>
+                      <td><img src={item.image} width={90} height={90} alt="..." /></td>
+                      <td>{item.name} </td>
+                      <td>{item.price}</td>
+                      <td>{item.quantity}</td>
+                      <td>{item.quantity * item.price}</td>
+                    </tr>)
+                  })}
                 </tbody>
               })}
 

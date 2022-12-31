@@ -1,7 +1,6 @@
 //rxslice
 import { createSlice } from '@reduxjs/toolkit'
-import axios from 'axios';
-import { http } from '../../util/config';
+import { http} from '../../util/config';
 import _ from 'lodash'
 
 const initialState = {
@@ -11,10 +10,7 @@ const initialState = {
         }
     ],
     productDetail: null,
-    productSearch:[],
-    listCartTemp:[],
-  
-
+    productSearch: [],
 }
 
 const ProductReducer = createSlice({
@@ -27,32 +23,20 @@ const ProductReducer = createSlice({
         getProductDetailAction: (state, action) => {
             state.productDetail = action.payload;
         },
-        getListResultAction:(state,action) =>{
+        getListResultAction: (state, action) => {
             state.productSearch = action.payload;
         },
-        sortListResultAction:(state,action)=>{
+        sortListResultAction: (state, action) => {
             let sortedListResult = [...state.productSearch];
             sortedListResult = _.orderBy(
-                sortedListResult,["price"],[action.payload]
+                sortedListResult, ["price"], [action.payload]
             );
             state.productSearch = sortedListResult;
         },
-        addToCartAction:(state,action)=>{
-            let index = state.listCartTemp.findIndex(
-                (i) => i.id === action.payload.id
-                );
-                if (index === -1) {
-                    state.listCartTemp.push(action.payload);
-                } else {
-                    state.listCartTemp[index].quantityState += action.payload.quantityState;
-                };
-                console.log(state.listCartTemp);
-        }
     }
 });
 
-export const { getProductAction,getProductDetailAction,getListResultAction,sortListResultAction,
-addToCartAction} = ProductReducer.actions
+export const { getProductAction, getProductDetailAction, getListResultAction, sortListResultAction} = ProductReducer.actions
 
 export default ProductReducer.reducer
 
@@ -61,14 +45,18 @@ export default ProductReducer.reducer
 
 //lay danh sach san pham trang home
 export const getAllProductApi = async (dispatch) => {
-    console.log("dispatch", dispatch);
-    const result = await http.get(`/api/Product`);
+    try {
+        console.log("dispatch", dispatch);
+        const result = await http.get(`/api/Product`);
 
-    console.log("result", result);
-    //sau khi lay du lieu thanh cong tu api => dispatch len redux
-    const action = getProductAction(result.data.content);
-    dispatch(action);
-    console.log(action);
+        console.log("result", result);
+        //sau khi lay du lieu thanh cong tu api => dispatch len redux
+        const action = getProductAction(result.data.content);
+        dispatch(action);
+        console.log(action);
+    } catch (error) {
+        console.log("err",error);
+    }
 };
 //lay chi tiet san pham trang detail
 export const getProductByIdApi = (id) => {
@@ -82,10 +70,10 @@ export const getProductByIdApi = (id) => {
 };
 //lay san pham trang search theo keyword
 export const getProductApi = (keyword) => {
-    return async (dispatch) => {     
-            const result = await http.get(`/api/Product?keyword=${keyword}`);
-            console.log(result.data.content);
-            const action =getListResultAction(result.data.content);
-            dispatch(action);
+    return async (dispatch) => {
+        const result = await http.get(`/api/Product?keyword=${keyword}`);
+        console.log(result.data.content);
+        const action = getListResultAction(result.data.content);
+        dispatch(action);
     };
 };

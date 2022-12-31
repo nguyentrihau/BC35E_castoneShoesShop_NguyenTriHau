@@ -51,7 +51,7 @@ const Register = () => {
               <div className="form-group ">
                 <label htmlFor="email">Email</label>
                 <input type="text" placeholder="email" name='email' className="form_email" id="email" onChange={formik.handleChange} onBlur={formik.handleBlur} />
-                {formik.errors.email && <div className="text-danger">{formik.errors.email}</div>}
+                {formik.errors.email && formik.touched.email && <div className="text-danger">{formik.errors.email}</div>}
               </div>
               <div className="form-group ">
                 <label htmlFor="password">Password</label>
@@ -61,7 +61,7 @@ const Register = () => {
                     setIcon("fa-solid fa-eye");setType("password")
                   }
                 }}></span>
-                {formik.errors.password && <div className="text-danger">{formik.errors.password}</div>}
+                {formik.errors.password && formik.touched.password && <div className="text-danger">{formik.errors.password}</div>}
 
               </div>
               <div className="form-group ">
@@ -72,19 +72,19 @@ const Register = () => {
                     setIcon("fa-solid fa-eye");setType("password")
                   }
                 }}></span>
-                {formik.errors.rePassword && <div className="text-danger">{formik.errors.rePassword}</div>}
+                {formik.errors.rePassword &&  formik.touched.rePassword && <div className="text-danger">{formik.errors.rePassword}</div>}
               </div>
             </div>
             <div className="col-6 form-right">
               <div className="form-group ">
                 <label htmlFor="name">Name</label>
                 <input type="text" name='name' placeholder="name" className="form_name" id="name" onChange={formik.handleChange} onBlur={formik.handleBlur} />
-                {formik.errors.name && <div className="text-danger">{formik.errors.name}</div>}
+                {formik.errors.name && formik.touched.name && <div className="text-danger">{formik.errors.name}</div>}
               </div>
               <div className="form-group ">
                 <label htmlFor="phone">Phone</label>
                 <input type="text" name='phone' placeholder="phone" className="form_phone" id="phone" onChange={formik.handleChange} onBlur={formik.handleBlur} />
-                {formik.errors.phone && <div className="text-danger">{formik.errors.phone}</div>}
+                {formik.errors.phone && formik.touched.phone && <div className="text-danger">{formik.errors.phone}</div>}
               </div>
               <div className="form-group d-xl-flex reCheck">
                 <div className="gender">Gender</div>

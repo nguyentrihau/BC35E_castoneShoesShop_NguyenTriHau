@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router';
 import Products from '../../Component/Product/Products';
-import { addToCartAction, getProductByIdApi, getProductDetailAction } from '../../redux/reducers/ProductReducer';
+import { addToCartAction } from '../../redux/reducers/CartReducer';
+import {getProductByIdApi} from '../../redux/reducers/ProductReducer';
 import { getProfileApi } from '../../redux/reducers/userReducer';
 import { layStore, USER_LOGIN } from '../../util/config';
 
@@ -33,7 +34,7 @@ const Detail = () => {
     if (!layStore(USER_LOGIN)) {
       dispatch(getProfileApi());
     }
-    dispatch(addToCartAction({ ...productDetail, sizeState, quantityState }));
+    dispatch(addToCartAction({ ...productDetail, quantityState }));
   }
 
   return (
@@ -51,7 +52,7 @@ const Detail = () => {
               <div className="size">
                 {productDetail?.size?.map((size,idx)=>{
                   return <button className={(sizeState === size ? "active-size" : "")}  key={idx} onClick={()=>{
-                    setSizeState(size); console.log(size);
+                    setSizeState(size)
                   }}><span>{size}</span></button>
                 })}
               </div>
