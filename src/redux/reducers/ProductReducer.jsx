@@ -1,7 +1,7 @@
 //rxslice
 import { createSlice } from '@reduxjs/toolkit'
-import { http} from '../../util/config';
-import _ from 'lodash'
+import { http } from '../../util/config';
+import _, { result } from 'lodash'
 
 const initialState = {
     arrProduct: [
@@ -11,6 +11,7 @@ const initialState = {
     ],
     productDetail: null,
     productSearch: [],
+    arrCategory: [],
 }
 
 const ProductReducer = createSlice({
@@ -33,10 +34,16 @@ const ProductReducer = createSlice({
             );
             state.productSearch = sortedListResult;
         },
+        getAllCategoryAction: (state, action) => {
+            state.arrCategory = action.payload;
+        },
+        getProductByCategoryIdAction: (state, action) => {
+            state.productSearch = action.payload;
+        }
     }
 });
 
-export const { getProductAction, getProductDetailAction, getListResultAction, sortListResultAction} = ProductReducer.actions
+export const { getProductAction, getProductDetailAction, getListResultAction, sortListResultAction, getAllCategoryAction, getProductByCategoryIdAction } = ProductReducer.actions
 
 export default ProductReducer.reducer
 
@@ -46,26 +53,31 @@ export default ProductReducer.reducer
 //lay danh sach san pham trang home
 export const getAllProductApi = async (dispatch) => {
     try {
-        console.log("dispatch", dispatch);
+        // console.log("dispatch", dispatch);
         const result = await http.get(`/api/Product`);
 
-        console.log("result", result);
+        // console.log("result", result);
         //sau khi lay du lieu thanh cong tu api => dispatch len redux
         const action = getProductAction(result.data.content);
         dispatch(action);
-        console.log(action);
+        // console.log(action);
     } catch (error) {
-        console.log("err",error);
+        console.log("err", error);
     }
 };
 //lay chi tiet san pham trang detail
 export const getProductByIdApi = (id) => {
     return async (dispatch) => {
-        const result = await http.get(`/api/Product/getbyid?id=${id}`);
-        //sau khi co du lieu tu api => dispatch lan 2 len reducer
-        const action = getProductDetailAction(result.data.content)
-        dispatch(action);
-        console.log(action);
+        try {
+
+            const result = await http.get(`/api/Product/getbyid?id=${id}`);
+            //sau khi co du lieu tu api => dispatch lan 2 len reducer
+            const action = getProductDetailAction(result.data.content)
+            dispatch(action);
+            console.log(action);
+        } catch (error) {
+            console.log(error);
+        }
     }
 };
 //lay san pham trang search theo keyword
@@ -77,3 +89,27 @@ export const getProductApi = (keyword) => {
         dispatch(action);
     };
 };
+
+//category lay ten hang giay
+export const getAllCategoryApi = async (dispatch) => {
+    try {
+        const result = await http.get("/api/Product/getAllCategory");
+        const action = getAllCategoryAction(result.data.content);
+        dispatch(action);
+    } catch (error) {
+        console.log(error);
+    }
+}
+//lay san pham category
+export const getProductByCategoryId = (keyword) => {
+    return async (dispatch) => {
+        try {
+            const result = await http.get(`/api/Product/getProductByCategory?categoryId=${keyword}`);
+            const action = getProductByCategoryIdAction(result.data.content);
+            dispatch(action);
+            console.log(result.data.content);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}

@@ -29,7 +29,7 @@ const Login = () => {
     console.log("res",res?.accessToken);
     console.log("res?.accessToken",res?.accessToken);
     if(res?.accessToken){
-      const action = loginFacebookApi(res.accessToken);
+      const action = loginFacebookApi({"facebookToken":res?.accessToken});
       dispatch(action);
     }
   }

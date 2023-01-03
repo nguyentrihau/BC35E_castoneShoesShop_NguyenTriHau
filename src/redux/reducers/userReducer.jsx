@@ -1,11 +1,13 @@
 // rxslice
 import { createSlice } from '@reduxjs/toolkit'
 import { history } from '../../App';
-import { getToken, http, luuStoreJson, TOKEN, USER_LOGIN } from '../../util/config';
+import { getToken, http, luuStoreJson, USER_LOGIN } from '../../util/config';
 
 const initialState = {
+
     profile: null,
     newUser: {},
+    productFavorite: [],
 }
 
 const userReducer = createSlice({
@@ -21,14 +23,14 @@ const userReducer = createSlice({
         postUpdateProfileApi: (state, action) => {
             state.profile = action.payload;
         },
-        postApiFacebookToken: (state, action) => {
-            state.userLogin = action.payload;
-        }
+        getProductFavoriteAction: (state, action) => {
+            state.productFavorite = action.payload;
+        },
 
     }
 });
 
-export const { setNewUser, getProfileAction, postUpdateProfileApi, postApiFacebookToken } = userReducer.actions
+export const { setNewUser, getProfileAction, postUpdateProfileApi, getProductFavoriteAction } = userReducer.actions
 
 export default userReducer.reducer
 
@@ -46,10 +48,10 @@ export const registerApi = (infoUse) => {  // { "email": "", "password": "",  "n
 }
 //gui thong tin len api de dang nhap
 export const loginApi = (userLogin) => {
-    return async (dispatch) => {
+    return async () => {
         let result = await http.post(`/api/Users/signin`, userLogin);
         luuStoreJson(USER_LOGIN, result.data.content);
-        alert('đăng nhập thành công')
+        // alert('đăng nhập thành công')
         window.location.reload();
         // history.push('/profile');
         //Luu cookie hoac localstorage cho token
@@ -87,16 +89,63 @@ export const updateProfileApi = (profileUpdate) => {
 //dang nhap bang facebook
 export const loginFacebookApi = (fbToken) => {
     try {
-        return async (dispatch) => {
+        return async () => {
             const result = await http.post("/api/Users/facebooklogin", fbToken)
-            const action = postApiFacebookToken(result.data.content);
-            console.log(result.data);
-            dispatch(action);
+            console.log(result.data.content);
             // alert('đăng nhập thành công')
-            // history.push('/profile');
+            window.location.reload();
+            history.push('/profile');
             luuStoreJson(USER_LOGIN, result.data.content);
         }
     } catch (error) {
         console.log({ error });
+    }
+}
+//xoa san pham order
+export const deteleOrderApi = (id) => {
+    try {
+        return async () => {
+            const result = await http.post("/api/Users/deleteOrder", id);
+            console.log(result);
+            window.location.reload();
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+//like product
+export const likeApi = (id) => {
+    try {
+        return async () => {
+            const result = await http.get(`/api/Users/like?productId=${id}`);
+            console.log('like', result.data.content);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+//unlike
+export const unlikeApi = (id) => {
+    try {
+        return async () => {
+            const result = await http.get(`/api/Users/unlike?productId=${id}`);
+            console.log('unlike', result.data.content);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+//product favorite
+export const getProductFavoriteApi = () => {
+    try {
+        return async (dispatch) => {
+            const result = await http.get("/api/Users/getproductfavorite");
+            console.log(result.data.content);
+            const action = getProductFavoriteAction(result.data.content);
+            dispatch(action);
+        }
+    } catch (error) {
+        console.log(error);
     }
 }

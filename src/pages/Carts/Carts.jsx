@@ -86,7 +86,7 @@ const Carts = () => {
                     <td>{prod.id}</td>
                     <td><img src={prod.image} width={90} height={90} alt=".." /></td>
                     <td><Link to={`/detail/${prod.id}`}>{prod.name}</Link></td>
-                    <td>{prod.price}</td>
+                    <td>{prod.price}$</td>
                     <td>
                       <button onClick={() => {
                         handleChangeQuantity(1, prod.id);
@@ -102,7 +102,7 @@ const Carts = () => {
                         }
                       }}>-</button>
                     </td>
-                    <td>{prod.price * prod.quantityState}</td>
+                    <td>{prod.price * prod.quantityState}$</td>
                     <td>
                       <button className='btn btn-danger btn_delete' onClick={() => {
                         if (window.confirm(`Bạn có muốn xóa sản phẩm ${prod.name}`)) {

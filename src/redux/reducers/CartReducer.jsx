@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { history } from '../../App';
-import { http, layStore, USER_LOGIN } from '../../util/config';
+import { getToken, http} from '../../util/config';
 import { getProfileApi } from './userReducer';
 
 const initialState = {
@@ -13,9 +13,7 @@ const CartReducer = createSlice({
     reducers: {
         addToCartAction: (state, action) => {
             //check login
-            if (!layStore(USER_LOGIN)) {
-                history.push("/login");
-            }
+            if (!getToken()){return history.push("/login")};
             //boc tach phan tu
             let { listCartTemp } = state;
             let { payload } = action;
@@ -32,7 +30,7 @@ const CartReducer = createSlice({
             };
             //update vao state
             state.listCartTemp = listCartTemp;
-            if (state.listCartTemp = listCartTemp) { alert('Thêm thành công') }
+            // if (state.listCartTemp = listCartTemp){ alert('Thêm thành công') }
             console.log("listCartTemp", listCartTemp);
         },
         changeQuantityAction: (state, action) => {
@@ -71,11 +69,11 @@ const CartReducer = createSlice({
             }
             state.listCartTemp = listCartTemp;
         },
-        checkAllItem:(state,action)=>{
-            let {listCartTemp} = state;
-            let {payload} = action;
+        checkAllItem: (state, action) => {
+            let { listCartTemp } = state;
+            let { payload } = action;
             for (const key in listCartTemp) {
-                listCartTemp[key]={
+                listCartTemp[key] = {
                     ...listCartTemp[key],
                     checked: payload,
                 }
@@ -85,7 +83,7 @@ const CartReducer = createSlice({
     }
 });
 
-export const { addToCartAction, changeQuantityAction, handleDeleteAction, submitOrderAction,checkItem,checkAllItem} = CartReducer.actions
+export const { addToCartAction, changeQuantityAction, handleDeleteAction, submitOrderAction, checkItem, checkAllItem } = CartReducer.actions
 
 export default CartReducer.reducer
 

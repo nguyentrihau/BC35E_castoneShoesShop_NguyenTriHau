@@ -37,7 +37,7 @@ const Header = () => {
     return (
         <div>
             <div className="header__top d-flex justify-content-between align-items-center">
-                <NavLink to="home"><img className="mx-5" src="./img/cyber.png" alt="logo" /></NavLink>
+                <NavLink to="home"><img className="mx-5" src="../img/cyber.png" alt="logo" /></NavLink>
                 <ul className="d-flex align-items-center my-0 mx-5 py-2 ">
                     <li>
                         <NavLink to="/search" className="header_search">
@@ -47,7 +47,7 @@ const Header = () => {
                     </li>
                     <li>
                         <NavLink to="/carts">
-                            <img src="./img/cart.png" style={{ cursor: 'pointer' }} alt="cart" />
+                            <img src="../img/cart.png" style={{ cursor: 'pointer' }} alt="cart" />
                             <span>({sl(listCartTemp,"quantityState")})</span>
                         </NavLink>
                     </li>

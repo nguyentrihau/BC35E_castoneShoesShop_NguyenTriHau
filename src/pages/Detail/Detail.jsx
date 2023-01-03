@@ -1,12 +1,9 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router';
 import Products from '../../Component/Product/Products';
 import { addToCartAction } from '../../redux/reducers/CartReducer';
 import {getProductByIdApi} from '../../redux/reducers/ProductReducer';
-import { getProfileApi } from '../../redux/reducers/userReducer';
-import { layStore, USER_LOGIN } from '../../util/config';
 
 const Detail = () => {
   const [sizeState, setSizeState] = useState("36");
@@ -31,9 +28,6 @@ const Detail = () => {
   };
 
   const handleAddToCart = () =>{
-    if (!layStore(USER_LOGIN)) {
-      dispatch(getProfileApi());
-    }
     dispatch(addToCartAction({ ...productDetail, quantityState }));
   }
 
@@ -51,7 +45,7 @@ const Detail = () => {
               <h4>Available size</h4>
               <div className="size">
                 {productDetail?.size?.map((size,idx)=>{
-                  return <button className={(sizeState === size ? "active-size" : "")}  key={idx} onClick={()=>{
+                  return <button className={(sizeState === size ? "active-size my-2" : "my-2")}  key={idx} onClick={()=>{
                     setSizeState(size)
                   }}><span>{size}</span></button>
                 })}

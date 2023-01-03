@@ -1,0 +1,37 @@
+.backtt {
+    opacity: 0.5;
+    scroll-behavior: smooth;
+    &:hover{
+        opacity: 1;
+    }
+    .circle {
+        position: fixed;
+        display: none;
+        bottom: 10px;
+        right: 0%;
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
+        cursor: pointer;
+        font-size: 17px;
+        color: #fff;
+        background: rgba(0, 72, 255, 0.938);
+        text-align: center;
+        vertical-align: middle;
+        box-shadow: 0px 0px 3px #000;
+    }
+
+    h1 {
+        text-align: center
+    }
+
+    .list li {
+        list-style: none;
+        margin: 10px 0;
+        padding: 10px
+    }
+
+    li:nth-child(2n) {
+        background: #ccc;
+    }
+}

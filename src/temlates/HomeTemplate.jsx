@@ -6,6 +6,7 @@ import Header from '../Component/HeaderPages/Header'
 import React, { useEffect } from 'react'
 import { getProfileApi } from '../redux/reducers/userReducer'
 import { useDispatch } from 'react-redux'
+import BackToTop from '../Component/btt/BackToTop'
 
 const HomeTemplate = () => {
     const dispatch = useDispatch();
@@ -14,7 +15,8 @@ const HomeTemplate = () => {
         dispatch(action);
       }, [])
   return (
-    <div>
+    <div id='btt'>
+      <BackToTop />
     <header><Header/></header>
     <div>
         <Outlet />

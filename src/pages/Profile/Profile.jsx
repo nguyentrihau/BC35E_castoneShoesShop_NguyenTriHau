@@ -1,13 +1,19 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from "react-router-dom";
-import { getProfileApi, updateProfileApi } from '../../redux/reducers/userReducer';
+import { deteleOrderApi, getProductFavoriteApi, getProfileApi, updateProfileApi } from '../../redux/reducers/userReducer';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 const Profile = () => {
   const { profile } = useSelector(state => state.userReducer);
-  console.log(profile?.ordersHistory)
-  // const profile = null;
+  const { productFavorite } = useSelector(state => state.userReducer);
+  console.log(productFavorite);
+  const [idProd, setIdProd] = useState(null);
+  // console.log(idProd);
+  const [dblock1, setDblock1] = useState('none');
+  const [dblock2, setDblock2] = useState('none');
+  const [color1, setColor1] = useState('black');
+  const [color2, setColor2] = useState('black');
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
@@ -39,7 +45,15 @@ const Profile = () => {
       console.log(userUpdate);
     }
   });
-
+  useEffect(() => {
+    if (idProd) {
+      dispatch(deteleOrderApi(idProd));
+    }
+  }, [idProd])
+  useEffect(() => {
+    const action = getProductFavoriteApi();
+    dispatch(action);
+  }, [])
   return (
     <section>
       <div className="profile">
@@ -98,75 +112,82 @@ const Profile = () => {
             </div>
           </form>
           <div className="history_favourite">
-            <h3 className='ord'>Order history</h3>
-            <h3 className='fav'>Favourite</h3>
+            <h3 className='ord' style={{ color: `${color1}` }} onClick={() => {
+              setColor1('#DD2AED');
+              setColor2('black');
+              setDblock1('block');
+              setDblock2('none');
+            }}>Order history</h3>
+            <h3 className='fav' style={{ color: `${color2}` }} onClick={() => {
+              setColor1('black');
+              setColor2('#DD2AED');
+              setDblock1('none');
+              setDblock2('block');
+            }}>Favourite</h3>
           </div>
-          <div className="history">
-            <p>+ Order have been placed on 09 - 19 - 2020</p>
-            <table className="table table_pr">
-              <thead className="thead">
-                <tr>
-                  <th>id</th>
-                  <th>img</th>
-                  <th>name</th>
-                  <th>price</th>
-                  <th>quantity</th>
-                  <th>total</th>
-                </tr>
-              </thead>
-              {profile?.ordersHistory?.map((prod, index) => {
-                console.log({ prod });
-                const { orderDetail } = prod;
-                return <tbody key={index}>
-                  {prod.orderDetail.map((item, id) => {
-                    console.log({item});
+          {profile?.ordersHistory?.map((prod, index) => {
+
+            // console.log({ prod });
+            return <div className="history" style={{ display: `${dblock1}` }} key={index}>
+              <p>+ {prod?.date}</p>
+              <table className="table table_pr">
+                <thead className="thead">
+                  <tr>
+                    <th>id</th>
+                    <th>img</th>
+                    <th>name</th>
+                    <th>price</th>
+                    <th>quantity</th>
+                    <th>total</th>
+                    <th><button className='btn btn-danger' onClick={() => {
+                      setIdProd({ "orderId": prod.id })
+                    }}>DELETE</button></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {prod?.orderDetail?.map((item, id) => {
+                    // console.log({ item });
                     return (<tr key={id}>
-                      <td>{id}</td>
-                      <td><img src={item.image} width={90} height={90} alt="..." /></td>
-                      <td>{item.name} </td>
-                      <td>{item.price}</td>
-                      <td>{item.quantity}</td>
-                      <td>{item.quantity * item.price}</td>
+                      <td>{prod?.id}</td>
+                      <td><img src={item?.image} width={90} height={90} alt="..." /></td>
+                      <td>
+                        <NavLink to={`/search?k=${item?.name}`}>{item?.name}</NavLink>
+
+                      </td>
+                      <td>{item?.price}$</td>
+                      <td>{item?.quantity}</td>
+                      <td>{item?.quantity * item?.price}$</td>
                     </tr>)
                   })}
                 </tbody>
-              })}
-
-            </table>
-          </div>
-          <div className="history">
-            <p>+ Order have been placed on 09 - 19 - 2020</p>
+              </table>
+            </div>
+          })}
+          <div className="history favourite" style={{ display: `${dblock2}` }}>
+            <p>+ Favorite</p>
             <table className="table table_pr">
               <thead className="thead">
                 <tr>
                   <th>id</th>
                   <th>img</th>
                   <th>name</th>
-                  <th>price</th>
-                  <th>quantity</th>
-                  <th>total</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td><img src="./img/image 5.png" width={85} height={56} alt="" /></td>
-                  <td>Product 1 </td>
-                  <td>1000</td>
-                  <td>1</td>
-                  <td>1000</td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                  <td>@fat</td>
-                  <td>@fat</td>
-                </tr>
+                {productFavorite?.productsFavorite?.map((prodlike, idlike) => {
+                  return (<tr key={idlike}>
+                    <td>{prodlike?.id}</td>
+                    <td><img src={prodlike?.image} width={90} height={90} alt="..." /></td>
+                    <td>
+                      <NavLink to={`/detail/${prodlike?.id}`}>{prodlike?.name}</NavLink>
+                    </td>
+                  </tr>)
+                })}
               </tbody>
             </table>
           </div>
+
+
           <nav aria-label="Page navigation example">
             <ul className="pagination justify-content-end my-5 pt-5">
               <li className="page-item">
