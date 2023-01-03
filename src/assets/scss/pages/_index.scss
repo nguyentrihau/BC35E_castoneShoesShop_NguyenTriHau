@@ -34,7 +34,7 @@
 
     .carousel-item.active {
         height: 530px;
-        background-image: url("../../img/image\ 6.png");
+        background-image: url("../../img/image6.png");
         background-repeat: no-repeat;
         background-size: contain;
         background-position: bottom;
@@ -52,16 +52,16 @@
             img {
                 position: absolute;
                 top: 0;
-                right: 50%;
+                right: 55%;
                 transform: translate(-50%, -50%);
                 transform: rotateY(180deg);
             }
         }
 
         .carousel__right {
-            width: 30%;
+            width: 50%;
             padding-bottom: 120px;
-            padding-right: 10px;
+            padding-right: 150px;
 
             h2 {
                 @include text ($fs5, $fw3, $color1, $lh4);

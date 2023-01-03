@@ -85,7 +85,7 @@ const Home = () => {
       </section>
       <section className="product">
         <div className="title">
-          <h2>Product Feature </h2>
+          <h2> - Product Feature - </h2>
         </div>
         <div className="container_pr">
           <div className="row">

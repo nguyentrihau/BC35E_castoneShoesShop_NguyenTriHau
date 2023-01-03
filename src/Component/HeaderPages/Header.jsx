@@ -1,5 +1,5 @@
 //react class component, rcc
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { huyStore, sl, TOKEN, USER_LOGIN } from '../../util/config';
@@ -7,6 +7,21 @@ import { huyStore, sl, TOKEN, USER_LOGIN } from '../../util/config';
 const Header = () => {
     const { profile } = useSelector(state => state.userReducer);
     const { listCartTemp } = useSelector(state => state.CartReducer);
+    // Sticky Menu Area
+    useEffect(() => {
+        window.addEventListener('scroll', isSticky);
+        return () => {
+            window.removeEventListener('scroll', isSticky);
+        };
+    });
+
+
+    /* Method that will fix header after a specific scrollable */
+    const isSticky = (e) => {
+        const header = document.querySelector('.header-section');
+        const scrollTop = window.scrollY;
+        scrollTop >= 250 ? header.classList.add('is-sticky') : header.classList.remove('is-sticky');
+    };
     const renderLogin = () => {
         if (profile) {
             return <>
@@ -36,8 +51,10 @@ const Header = () => {
     }
     return (
         <div>
-            <div className="header__top d-flex justify-content-between align-items-center">
-                <NavLink to="home"><img className="mx-5" src="../img/cyber.png" alt="logo" /></NavLink>
+            <div className="header__top d-flex justify-content-between align-items-center header-section">
+                <NavLink to="home">
+                    <img className="mx-5 img-fluid" width={150} height={35} src="../img/logocyber.png" alt="logo" />
+                </NavLink>
                 <ul className="d-flex align-items-center my-0 mx-5 py-2 ">
                     <li>
                         <NavLink to="/search" className="header_search">
@@ -48,7 +65,7 @@ const Header = () => {
                     <li>
                         <NavLink to="/carts">
                             <img src="../img/cart.png" style={{ cursor: 'pointer' }} alt="cart" />
-                            <span>({sl(listCartTemp,"quantityState")})</span>
+                            <span>({sl(listCartTemp, "quantityState")})</span>
                         </NavLink>
                     </li>
                     {renderLogin()}
