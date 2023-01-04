@@ -93,7 +93,7 @@ export const loginFacebookApi = (fbToken) => {
             const result = await http.post("/api/Users/facebooklogin", fbToken);
             console.log(result.data.content);
             // alert('đăng nhập thành công')
-            // window.location.reload();
+            window.location.reload();
             history.push('/profile');
             luuStoreJson(USER_LOGIN, result.data.content);
         }
