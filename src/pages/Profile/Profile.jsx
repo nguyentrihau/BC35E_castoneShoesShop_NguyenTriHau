@@ -10,9 +10,9 @@ const Profile = () => {
   console.log(productFavorite);
   const [idProd, setIdProd] = useState(null);
   // console.log(idProd);
-  const [dblock1, setDblock1] = useState('none');
+  const [dblock1, setDblock1] = useState('block');
   const [dblock2, setDblock2] = useState('none');
-  const [color1, setColor1] = useState('black');
+  const [color1, setColor1] = useState('#DD2AED');
   const [color2, setColor2] = useState('black');
   const dispatch = useDispatch();
   const formik = useFormik({

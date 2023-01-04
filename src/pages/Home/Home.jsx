@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom';
 import Products from '../../Component/Product/Products'
 import { getAllProductApi, getProductAction } from '../../redux/reducers/ProductReducer';
+import { getProductFavoriteApi } from '../../redux/reducers/userReducer';
 
 const Home = () => {
   const { arrProduct } = useSelector(state => state.ProductReducer);
@@ -29,7 +30,7 @@ const Home = () => {
 
   //   }
   // }
-  const getAllProduct = async () => {
+  const getAllProduct =  () => {
     const action = getAllProductApi;
     dispatch(action);
   }
@@ -39,7 +40,10 @@ const Home = () => {
     getAllProduct();
     // heart();
   }, []);
-
+  useEffect(() => {
+    const action = getProductFavoriteApi();
+    dispatch(action);
+  }, [])
   return (
     <>
       <section className="carousel">
@@ -89,6 +93,7 @@ const Home = () => {
         </div>
         <div className="container_pr">
           <div className="row">
+            
             {arrProduct.map((prod, index) => {
               // console.log(prod);
               return <div className="col-lg-4 col-md-6 px-4 pt-5" key={index}>

@@ -1,28 +1,31 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { likeApi, unlikeApi } from '../../redux/reducers/userReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { handleFavorite, likeApi, unlikeApi } from '../../redux/reducers/userReducer';
+import { getToken } from '../../util/config';
+import { history } from '../../App';
 const Products = (props) => {
     const { prod } = props;
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [bgHeart, setBgHeart] = useState("fa-regular fa-heart");
     const [like, setLike] = useState(true);
-    const [idProductHeart,setIdProductHeart] = useState('');
-    console.log("true",idProductHeart);
-    
+    const [idProductHeart, setIdProductHeart] = useState(prod.id);
+
     return (
         <div className="card">
             <img src={prod?.image} className="card-img-top" alt="..." />
             <div className='product_heart'>
                 <i className={bgHeart} style={{ cursor: 'pointer' }} onClick={() => {
                     if (like) {
-                        setBgHeart("fa fa-heart"); setLike(false);
+                        if (!getToken()) { return history.push('/login') };
                         setIdProductHeart(prod?.id);
                         dispatch(likeApi(idProductHeart));
+                        setBgHeart("fa fa-heart"); setLike(false);
                     } else {
-                        setBgHeart("fa-regular fa-heart"); setLike(true);
+                        setIdProductHeart(prod?.id);
                         dispatch(unlikeApi(idProductHeart));
+                        setBgHeart("fa-regular fa-heart"); setLike(true);
                     }
                 }}></i>
             </div>
