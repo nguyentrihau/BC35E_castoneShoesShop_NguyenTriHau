@@ -25,7 +25,12 @@ const Header = () => {
     const renderLogin = () => {
         if (profile) {
             return <>
-                <NavLink className={'nav-link'} to='/profile'>
+                <NavLink  style={{
+                    fontSize: '16px',
+                    fontWeight: '300',
+                    color: 'rgba(0, 0, 0, 0.7)', lineHeight: '24.2px',
+                    padding:'0.5rem 1rem'
+                }} to='/profile'>
                     <span style={{ color: 'white', fontSize: '20px' }}>Hello ! {profile?.email}</span>
                 </NavLink>
                 <span style={{ cursor: 'pointer', color: 'white', fontWeight: '500' }} onClick={() => {
