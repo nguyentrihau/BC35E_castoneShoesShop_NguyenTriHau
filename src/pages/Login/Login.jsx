@@ -4,7 +4,8 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { loginApi, loginFacebookApi } from '../../redux/reducers/userReducer';
-import FacebookLogin from 'react-facebook-login';
+// import FacebookLogin from 'react-facebook-login';
+import ReactFacebookLogin from 'react-facebook-login';
 const Login = () => {
   let [type, setType] = useState("password");
   let [icon, setIcon] = useState("fa-solid fa-eye");
@@ -26,7 +27,6 @@ const Login = () => {
     }
   });
   const responseFacebook = (res) => {
-    console.log("res",res?.accessToken);
     console.log("res?.accessToken",res?.accessToken);
     if(res?.accessToken){
       const action = loginFacebookApi({"facebookToken":res?.accessToken});
@@ -60,7 +60,7 @@ const Login = () => {
               <NavLink to="/register">Register now?</NavLink>
               <button className='btn_login'>LOGIN</button>
             </div>
-            <div className='' >  <FacebookLogin
+            <div className='' >  <ReactFacebookLogin
               appId="1262329041298224"
               autoLoad={false}
               fields="name,email,picture"
