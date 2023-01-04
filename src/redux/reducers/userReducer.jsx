@@ -90,10 +90,10 @@ export const updateProfileApi = (profileUpdate) => {
 export const loginFacebookApi = (fbToken) => {
     try {
         return async () => {
-            const result = await http.post("/api/Users/facebooklogin", fbToken)
+            const result = await http.post("/api/Users/facebooklogin", fbToken);
             console.log(result.data.content);
             // alert('đăng nhập thành công')
-            window.location.reload();
+            // window.location.reload();
             history.push('/profile');
             luuStoreJson(USER_LOGIN, result.data.content);
         }
