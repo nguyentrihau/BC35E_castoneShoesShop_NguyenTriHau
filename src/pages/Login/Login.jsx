@@ -61,7 +61,7 @@ const Login = () => {
               <button className='btn_login'>LOGIN</button>
             </div>
             <div className='' >  <ReactFacebookLogin
-              appId="1262329041298224"
+              appId="1011839713107411"
               autoLoad={false}
               fields="name,email,picture"
               callback={responseFacebook}
