@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { handleFavorite, likeApi, unlikeApi } from '../../redux/reducers/userReducer';
+import { getProductFavoriteApi, handleFavorite, likeApi, unlikeApi } from '../../redux/reducers/userReducer';
 import { getToken } from '../../util/config';
 import { history } from '../../App';
 const Products = (props) => {
     const { prod } = props;
+    const { valid } = props;
+    // console.log(valid);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [bgHeart, setBgHeart] = useState("fa-regular fa-heart");
     const [like, setLike] = useState(true);
     const [idProductHeart, setIdProductHeart] = useState(prod.id);
-
+    useEffect(() => {
+        if (valid) { setBgHeart("fa fa-heart") };
+    }, [valid])
     return (
         <div className="card">
             <img src={prod?.image} className="card-img-top" alt="..." />
@@ -21,11 +25,13 @@ const Products = (props) => {
                         if (!getToken()) { return history.push('/login') };
                         setIdProductHeart(prod?.id);
                         dispatch(likeApi(idProductHeart));
-                        setBgHeart("fa fa-heart"); setLike(false);
-                    } else {
+                        setBgHeart("fa fa-heart"); 
+                        return setLike(false);
+                    } else if (!like) {
                         setIdProductHeart(prod?.id);
                         dispatch(unlikeApi(idProductHeart));
-                        setBgHeart("fa-regular fa-heart"); setLike(true);
+                        setBgHeart("fa-regular fa-heart"); 
+                        return setLike(true);
                     }
                 }}></i>
             </div>

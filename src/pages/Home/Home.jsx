@@ -9,6 +9,9 @@ import { getProductFavoriteApi } from '../../redux/reducers/userReducer';
 const Home = () => {
   const { arrProduct } = useSelector(state => state.ProductReducer);
   const dispatch = useDispatch();
+  const { productFavorite } = useSelector(state => state.userReducer);
+  // let valid = false;
+  // console.log(productFavorite?.productsFavorite);
   // const heart = async (dispatch) => {
 
   //   try {
@@ -30,17 +33,23 @@ const Home = () => {
 
   //   }
   // }
-  const getAllProduct =  () => {
-    const action = getAllProductApi;
-    dispatch(action);
+
+  
+
+  const getAllProduct = async () => {
+    try {
+      
+      const action = await getAllProductApi;
+      dispatch(action);
+    } catch (error) {
+      console.log({error});
+    }
   }
 
   useEffect(() => {
     //call api tu backend
     getAllProduct();
     // heart();
-  }, []);
-  useEffect(() => {
     const action = getProductFavoriteApi();
     dispatch(action);
   }, [])
@@ -93,12 +102,25 @@ const Home = () => {
         </div>
         <div className="container_pr">
           <div className="row">
-            
+
             {arrProduct.map((prod, index) => {
-              // console.log(prod);
+            //  console.log({prod});
+                 const findeditem = productFavorite?.productsFavorite?.findIndex(item => item.id === prod.id)
+                //  console.log(findeditem !== -1);
+                //  let validItem = false;
+              // productFavorite?.productsFavorite?.map((prodLike, idl) => {
+              //   // console.log("prod.id=",prod.id,";prodLike.id=",prodLike.id);
+              //   {
+              //     if (prod.id == prodLike.id) {
+              //       validItem = true;
+              //     } else {
+              //     }
+              //   }
+              // })
               return <div className="col-lg-4 col-md-6 px-4 pt-5" key={index}>
-                <Products prod={prod} />
+                <Products prod={prod} valid={findeditem!==-1} />
               </div>
+              // console.log(prod);
             })}
           </div>
         </div>

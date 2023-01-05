@@ -49,6 +49,13 @@ export default ProductReducer.reducer
 
 
 /**----------async action------------------ */
+export const getAllProductApiCall = async (dispatch) => {
+    // console.log("dispatch", dispatch);
+    return await http.get(`/api/Product`).then(res => {
+        return res
+    }).catch(err => console.log({ err }))
+
+};
 
 //lay danh sach san pham trang home
 export const getAllProductApi = async (dispatch) => {
@@ -60,6 +67,7 @@ export const getAllProductApi = async (dispatch) => {
         //sau khi lay du lieu thanh cong tu api => dispatch len redux
         const action = getProductAction(result.data.content);
         dispatch(action);
+
         // console.log(action);
     } catch (error) {
         console.log("err", error);
